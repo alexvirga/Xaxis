@@ -13,6 +13,7 @@ class Traffic extends Component {
     }
 
 
+
     getTraffic = () => {
       firebase
         .firestore()
@@ -68,11 +69,12 @@ class Traffic extends Component {
         Start: this.state.Start,
         End: this.state.End
       })
-      .then(this.setState({ data: [] })) // Clears the current data
+      .then(this.setState({ data: [], ISCI: "", Start: "", End: ""  })) // Clears the current data
       .then(() => this.getTraffic())
       .catch(function(error) {
         console.error("Error adding document: ", error);
       });
+   
   };
 
   handleChange = event => {
@@ -81,25 +83,44 @@ class Traffic extends Component {
     });
   };
 
+  handleDropDownChange = event => {
+      this.setState({client: event.target.value}, () => this.getTraffic())
+      
+  }
+
+  clientDropDown = () => {
+      return (
+        <select name="Clients" onChange={this.handleDropDownChange}>
+        <option value="Indeed">Indeed</option>
+        <option value="Haribo">Haribo</option>
+        <option value="Altice">Altice</option>
+        <option value="John Deere">John Deere</option>
+      </select>
+      )
+  }
+
   dataForm = () => {
     return (
       <form>
         <input
           type="text"
           name="ISCI"
-          placeholder="New Task"
+          placeholder="New ISCI"
+          value={this.state.ISCI}
           onChange={this.handleChange}
         />
         <input
           type="date"
           name="Start"
           placeholder="Task Start"
+          value={this.state.Start}
           onChange={this.handleChange}
         />
                 <input
           type="date"
           name="End"
           placeholder="Task End"
+          value={this.state.End}
           onChange={this.handleChange}
         />
         <button type="submit" onClick={this.handleSubmit}>
@@ -111,9 +132,12 @@ class Traffic extends Component {
   };
 
   render() {
+    
     return (
       <div className="App">
         <h1> Traffic Dashboard </h1>
+        {this.clientDropDown()}
+        <br/>
         {this.dataForm()}
         <div>
           <br />

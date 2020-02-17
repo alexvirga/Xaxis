@@ -23,6 +23,7 @@ return(
     <div>
       {/* <Route exact path="/" component={Home} /> */}
       <Route exact path="/" component={Traffic} />
+      <Route exact path="/todo" component={ToDo} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/signup" component={SignUp} />
     </div>
